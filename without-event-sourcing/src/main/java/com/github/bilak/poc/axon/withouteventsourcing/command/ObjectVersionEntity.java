@@ -1,6 +1,7 @@
 package com.github.bilak.poc.axon.withouteventsourcing.command;
 
 import com.github.bilak.poc.axon.withouteventsourcing.api.command.CreateObjectCommand;
+import com.github.bilak.poc.axon.withouteventsourcing.api.event.ObjectCreatedEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.EntityId;
 import org.axonframework.messaging.MetaData;
@@ -9,6 +10,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.Instant;
+
+import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 
 /**
  * @author lvasek.
@@ -46,13 +49,12 @@ public class ObjectVersionEntity {
 	protected ObjectVersionEntity() {
 	}
 
-	@CommandHandler
 	public ObjectVersionEntity(CreateObjectCommand command, MetaData metaData) {
 		this.objectVersionId = command.getObjectVersionId();
 		this.objectId = command.getObjectId();
 		this.objectName = command.getObjectName();
 		this.versionNumber = Long.valueOf(0);
-
+		apply(new ObjectCreatedEvent(objectId, objectVersionId, objectName, versionNumber));
 	}
 
 	public String getObjectVersionId() {

@@ -54,13 +54,22 @@ public class ObjectAggregateRoot {
 	}
 
 	@CommandHandler
-	public ObjectAggregateRoot(CreateObjectCommand command) {
+	public ObjectAggregateRoot(CreateObjectCommand command, MetaData metaData) {
 		this.id = command.getObjectId();
+		objectVersions.add(new ObjectVersionEntity(command, metaData));
 	}
 
 	@EventHandler
 	private void on(ObjectCreatedEvent event, MetaData metaData, @Timestamp Instant eventTimestamp) {
+		this.id = event.getObjectId();
+		this.currentVersion = event.getVersionNumber();
 		setCreationAttributes(metaData, eventTimestamp);
+		objectVersions.stream()
+				.filter(ov -> event.getObjectVersionId().equalsIgnoreCase(ov.getObjectVersionId()))
+				.findFirst()
+				.ifPresent(ov -> {
+					ov.setCreated(eventTimestamp);
+				});
 	}
 
 	private void setCreationAttributes(MetaData metaData, Instant creationDate) {
