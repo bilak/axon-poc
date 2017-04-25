@@ -1,0 +1,113 @@
+package com.github.bilak.poc.axon.withouteventsourcing.command;
+
+import com.github.bilak.poc.axon.withouteventsourcing.api.command.CreateObjectCommand;
+import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.commandhandling.model.EntityId;
+import org.axonframework.messaging.MetaData;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import javax.persistence.*;
+import java.time.Instant;
+
+/**
+ * @author lvasek.
+ */
+@Entity
+@Table(name = "object_version")
+public class ObjectVersionEntity {
+
+	@Id
+	@Column(name = "id", length = 36)
+	@EntityId
+	private String objectVersionId;
+
+	@Column(name = "object_id", length = 36)
+	private String objectId;
+
+	@Column(name = "object_name")
+	private String objectName;
+
+	@Column(name = "version_number")
+	private Long versionNumber;
+
+	@Version
+	@Column(name = "version")
+	private Long version;
+
+	@CreatedDate
+	@Column(name = "creation_date")
+	private Instant created;
+	@LastModifiedDate
+	@Column(name = "modify_date")
+	private Instant modified;
+
+	@SuppressWarnings("unused")
+	protected ObjectVersionEntity() {
+	}
+
+	@CommandHandler
+	public ObjectVersionEntity(CreateObjectCommand command, MetaData metaData) {
+		this.objectVersionId = command.getObjectVersionId();
+		this.objectId = command.getObjectId();
+		this.objectName = command.getObjectName();
+		this.versionNumber = Long.valueOf(0);
+
+	}
+
+	public String getObjectVersionId() {
+		return objectVersionId;
+	}
+
+	public void setObjectVersionId(String objectVersionId) {
+		this.objectVersionId = objectVersionId;
+	}
+
+	public String getObjectId() {
+		return objectId;
+	}
+
+	public void setObjectId(String objectId) {
+		this.objectId = objectId;
+	}
+
+	public String getObjectName() {
+		return objectName;
+	}
+
+	public void setObjectName(String objectName) {
+		this.objectName = objectName;
+	}
+
+	public Long getVersionNumber() {
+		return versionNumber;
+	}
+
+	public void setVersionNumber(Long versionNumber) {
+		this.versionNumber = versionNumber;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+
+	public Instant getCreated() {
+		return created;
+	}
+
+	public void setCreated(Instant created) {
+		this.created = created;
+	}
+
+	public Instant getModified() {
+		return modified;
+	}
+
+	public void setModified(Instant modified) {
+		this.modified = modified;
+	}
+}

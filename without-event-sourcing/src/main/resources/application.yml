@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:h2:~/h2db/axon-without-event-sourcing;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password: sa
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate.default_schema: public
+      hibernate.show_sql: false
+      hibernate.format_sql: true
+
+liquibase:
+  enabled: true
+  change-log: classpath:db/changelog/db-changelog-master.xml
