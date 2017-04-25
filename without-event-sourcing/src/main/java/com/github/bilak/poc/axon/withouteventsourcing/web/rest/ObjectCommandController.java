@@ -1,14 +1,14 @@
 package com.github.bilak.poc.axon.withouteventsourcing.web.rest;
 
+import com.github.bilak.poc.axon.withouteventsourcing.api.command.CreateNewObjectVersionCommand;
 import com.github.bilak.poc.axon.withouteventsourcing.api.command.CreateObjectCommand;
+import com.github.bilak.poc.axon.withouteventsourcing.web.rest.schema.CreateNewObjectVersionRequest;
 import com.github.bilak.poc.axon.withouteventsourcing.web.rest.schema.CreateObjectRequest;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.common.IdentifierFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -46,5 +46,18 @@ public class ObjectCommandController {
 
 		return commandGateway.send(command)
 				.thenApply(result -> ResponseEntity.accepted().location(location).build());
+	}
+
+	@PutMapping("/{objectId}")
+	public CompletableFuture<ResponseEntity> createNewObjectVersion(@PathVariable("objectId") String objectId,
+			@Valid @RequestBody CreateNewObjectVersionRequest request) {
+		CreateNewObjectVersionCommand command = new CreateNewObjectVersionCommand(
+				objectId,
+				IdentifierFactory.getInstance().generateIdentifier(),
+				request.getObjectName(),
+				request.getVersion());
+
+		return commandGateway.send(command)
+				.thenApply(result -> ResponseEntity.accepted().build());
 	}
 }
