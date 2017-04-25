@@ -127,8 +127,8 @@
             </column>
             <column name="current_version" type="BIGINT" />
             <column name="version" type="BIGINT" />
-            <column name="created" type="java.sql.Types.TIMESTAMP" />
-            <column name="modified" type="java.sql.Types.TIMESTAMP" />
+            <column name="creation_date" type="java.sql.Types.TIMESTAMP" />
+            <column name="modify_date" type="java.sql.Types.TIMESTAMP" />
         </createTable>
 
         <createTable tableName="object_version">
@@ -140,8 +140,8 @@
             <column name="object_name" type="VARCHAR(255)" />
             <column name="version_number" type="BIGINT" />
             <column name="version" type="BIGINT" />
-            <column name="created" type="java.sql.Types.TIMESTAMP" />
-            <column name="modified" type="java.sql.Types.TIMESTAMP" />
+            <column name="creation_date" type="java.sql.Types.TIMESTAMP" />
+            <column name="modify_date" type="java.sql.Types.TIMESTAMP" />
         </createTable>
     </changeSet>
 </databaseChangeLog>
