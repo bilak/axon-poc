@@ -1,14 +1,20 @@
 package com.github.bilak.poc.axon.withouteventsourcing.command;
 
-import com.github.bilak.poc.axon.withouteventsourcing.api.event.NewObjectVersionCreatedEvent;
-import com.github.bilak.poc.axon.withouteventsourcing.api.event.ObjectCreatedEvent;
-import org.axonframework.commandhandling.model.EntityId;
+import java.time.Instant;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Version;
+
 import org.axonframework.messaging.MetaData;
+import org.axonframework.modelling.command.EntityId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.*;
-import java.time.Instant;
+import com.github.bilak.poc.axon.withouteventsourcing.api.event.NewObjectVersionCreatedEvent;
+import com.github.bilak.poc.axon.withouteventsourcing.api.event.ObjectCreatedEvent;
 
 /**
  * @author lvasek.

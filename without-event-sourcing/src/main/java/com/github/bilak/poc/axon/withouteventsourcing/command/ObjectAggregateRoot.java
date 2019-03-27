@@ -1,26 +1,37 @@
 package com.github.bilak.poc.axon.withouteventsourcing.command;
 
-import com.github.bilak.poc.axon.withouteventsourcing.api.command.CreateNewObjectVersionCommand;
-import com.github.bilak.poc.axon.withouteventsourcing.api.command.CreateObjectCommand;
-import com.github.bilak.poc.axon.withouteventsourcing.api.event.NewObjectVersionCreatedEvent;
-import com.github.bilak.poc.axon.withouteventsourcing.api.event.ObjectCreatedEvent;
-import org.axonframework.commandhandling.CommandHandler;
-import org.axonframework.commandhandling.model.AggregateIdentifier;
-import org.axonframework.commandhandling.model.AggregateMember;
-import org.axonframework.commandhandling.model.AggregateVersion;
-import org.axonframework.eventhandling.EventHandler;
-import org.axonframework.eventhandling.Timestamp;
-import org.axonframework.messaging.MetaData;
-import org.axonframework.spring.stereotype.Aggregate;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 
-import javax.persistence.*;
 import java.time.Instant;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Version;
+
+import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.eventhandling.Timestamp;
+import org.axonframework.messaging.MetaData;
+import org.axonframework.modelling.command.AggregateIdentifier;
+import org.axonframework.modelling.command.AggregateMember;
+import org.axonframework.modelling.command.AggregateVersion;
+import org.axonframework.spring.stereotype.Aggregate;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import com.github.bilak.poc.axon.withouteventsourcing.api.command.CreateNewObjectVersionCommand;
+import com.github.bilak.poc.axon.withouteventsourcing.api.command.CreateObjectCommand;
+import com.github.bilak.poc.axon.withouteventsourcing.api.event.NewObjectVersionCreatedEvent;
+import com.github.bilak.poc.axon.withouteventsourcing.api.event.ObjectCreatedEvent;
+
+
 
 /**
  * @author lvasek.

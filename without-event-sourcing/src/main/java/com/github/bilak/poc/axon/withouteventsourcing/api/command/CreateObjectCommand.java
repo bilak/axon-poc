@@ -4,11 +4,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+import org.axonframework.modelling.command.TargetAggregateIdentifier;
+
+
 /**
  * @author lvasek.
  */
 public class CreateObjectCommand implements Serializable {
 
+	@TargetAggregateIdentifier
 	@NotNull
 	@Size(min = 1, max = 36)
 	private final String objectId;

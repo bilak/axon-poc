@@ -1,11 +1,14 @@
 package com.github.bilak.poc.axon.withouteventsourcing.api.command;
 
-import org.axonframework.commandhandling.TargetAggregateIdentifier;
-import org.axonframework.commandhandling.TargetAggregateVersion;
+
+import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
+
+import org.axonframework.modelling.command.TargetAggregateIdentifier;
+import org.axonframework.modelling.command.TargetAggregateVersion;
+
 
 /**
  * @author lvasek.
